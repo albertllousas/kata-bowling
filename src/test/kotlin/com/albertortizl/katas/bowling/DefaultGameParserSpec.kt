@@ -7,7 +7,7 @@ import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
 import kotlin.test.assertFails
 
-object GameParserSpec : Spek({
+object DefaultGameParserSpec : Spek({
 
     given("a game parser") {
 
@@ -24,6 +24,17 @@ object GameParserSpec : Spek({
                 val game: Game = asGame("X")
                 game `should equal` Game(listOf(Strike))
             }
+
+            it("should return a game with a single Spare when a string with spare pattern is provided") {
+                val game: Game = asGame("2/")
+                game `should equal` Game(listOf(Spare(2)))
+            }
+
+            it("should return a game with a single Spare when a string with miss and spare pattern is provided") {
+                val game: Game = asGame("-/")
+                game `should equal` Game(listOf(Spare(0)))
+            }
+
         }
 
     }
