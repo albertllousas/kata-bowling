@@ -1,5 +1,5 @@
 package com.albertortizl.katas.bowling
 
 class BowlingGame {
-    fun score(line: String): Int = 0
+    infix fun score(frames: String): Int = 0
 }
