@@ -1,6 +1,6 @@
 package com.albertortizl.katas.bowling
 
 sealed class Frame
-//data class Const(val number: Double) : Expr()
-//data class Spare(val e1: Expr, val e2: Expr) : Expr()
+data class OpenFrame(val firstPins: Int, val secondPins: Int) : Frame()
+data class Spare(val pins: Int) : Frame()
 object Strike : Frame()
