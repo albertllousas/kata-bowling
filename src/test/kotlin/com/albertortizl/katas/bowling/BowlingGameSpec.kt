@@ -9,13 +9,18 @@ import org.jetbrains.spek.api.dsl.on
 
 object BowlingGameSpec : Spek({
 
-
     given("a bowling game") {
+
         val bowlingGame = BowlingGame()
+
         on("score") {
-            val score = bowlingGame score ""
-            it("should be 0 when all are misses") {
+            it("should be 0 when all the frames are misses") {
+                val score = bowlingGame score ""
                 score `should be` 0
+            }
+            it("should be the max punctuation when all the frames are strikes") {
+                val score = bowlingGame score "X X X X X X X X X X X X"
+                score `should be` 300
             }
         }
 
