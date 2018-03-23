@@ -14,11 +14,11 @@ object BowlingGameSpec : Spek({
         val bowlingGame = BowlingGame()
 
         on("score") {
-            it("should be 0 when all the frames are misses") {
+            it("should return 0 when all the frames are misses") {
                 val score = bowlingGame score ""
                 score `should be` 0
             }
-            it("should be the max punctuation when all the frames are strikes") {
+            it("should return the max punctuation when all the frames are strikes") {
                 val score = bowlingGame score "X X X X X X X X X X X X"
                 score `should be` 300
             }
