@@ -1,5 +1,9 @@
 package com.albertortizl.katas.bowling
 
-class BowlingGame {
-    infix fun score(frames: String): Int = 0
+class BowlingGame(private val asGame:GameParser = defaultGameParser) {
+
+    infix fun score(frames: String): Int {
+        val game: Game = asGame(frames)
+        return 0
+    }
 }
