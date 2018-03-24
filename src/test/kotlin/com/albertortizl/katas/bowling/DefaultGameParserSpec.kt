@@ -66,12 +66,32 @@ object DefaultGameParserSpec : Spek({
 
         val asSpare = DefaultGameParser::asSpare
 
-        it("should convert to Spare when spare is valid") {
+        it("should convert to Spare entity when spare is valid") {
             asSpare("5/") `should equal` Spare(5)
         }
 
-        it("should convert to Spare when only the first character is valid") {
+        it("should convert to Spare entity when only the first character is valid") {
             asSpare("555") `should equal` Spare(5)
+        }
+
+    }
+
+
+    given("string to open frame converter") {
+
+        val asOpenFrame = DefaultGameParser::asOpenFrame
+
+        it("should convert to OpenFrame entity when spare is valid") {
+            asOpenFrame("54") `should equal` OpenFrame(5, 4)
+        }
+
+        it("should fail to OpenFrame entity when spare is invalid") {
+            val func = { asOpenFrame("X") }
+            func `should throw` NumberFormatException::class
+        }
+
+        it("should convert to Spare when there is more than two characters") {
+            asOpenFrame("5555") `should equal` OpenFrame(5, 555)
         }
 
     }
