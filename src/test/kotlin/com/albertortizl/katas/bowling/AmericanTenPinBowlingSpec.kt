@@ -7,11 +7,11 @@ import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
 
 
-object BowlingGameSpec : Spek({
+object AmericanTenPinBowlingSpec : Spek({
 
     given("a bowling game") {
 
-        val bowlingGame = BowlingGame()
+        val bowlingGame = AmericanTenPinBowling()
 
         on("score") {
             it("should return 0 when all the frames are misses") {
