@@ -8,7 +8,7 @@ import org.jetbrains.spek.api.dsl.it
 
 object ScoreParserSpec : Spek({
 
-    given("a open frame score calculation") {
+    given("a single open frame score calculation") {
 
         val score: (OpenFrame) -> Int = ::scoreOpenFrame
 
@@ -17,7 +17,7 @@ object ScoreParserSpec : Spek({
         }
     }
 
-    given("a spare score calculation") {
+    given("a single spare score calculation") {
 
         val score: (Frame) -> Int = ::scoreSpare
 
@@ -28,7 +28,7 @@ object ScoreParserSpec : Spek({
         }
     }
 
-    given("a strike score calculation") {
+    given("a single strike score calculation") {
 
         val score: (Frame, Frame) -> Int = ::scoreStrike
 
@@ -36,6 +36,23 @@ object ScoreParserSpec : Spek({
             score(Spare(4), OpenFrame(1,1)) `should be equal to` 22
             score(Strike, Strike) `should be equal to` 30
             score(Spare(4), Spare(5)) `should be equal to` 30
+        }
+    }
+
+    given("a generic frame score calculation with the frame to score and the following ones") {
+
+        val score: (Frame, Frame, Frame) -> Int = ::score
+
+        it("scores an open frame") {
+            score(OpenFrame(1, 6), Spare(1), Strike) `should be equal to` 7
+        }
+
+        it("scores a strike") {
+            score(Strike, Spare(1), Strike) `should be equal to` 30
+        }
+
+        it("scores a spare") {
+            score(Spare(2), OpenFrame(1, 6), Strike) `should be equal to` 17
         }
     }
 })
