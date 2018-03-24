@@ -10,7 +10,7 @@ object ScoreParserSpec : Spek({
 
     given("a open frame score calculation") {
 
-        val score: (OpenFrame) -> Int = ::score
+        val score: (OpenFrame) -> Int = ::scoreOpenFrame
 
         it("scores as the total number of pins knocked down in his two tries") {
             score(OpenFrame(1, 6)) `should be equal to` 7
@@ -19,12 +19,23 @@ object ScoreParserSpec : Spek({
 
     given("a spare score calculation") {
 
-        val score: (Spare, Frame) -> Int = ::score
+        val score: (Frame) -> Int = ::scoreSpare
 
-        it("scores as ten plus the number of pins knocked down on his next throw") {
-            score(Spare(4), OpenFrame(1,1)) `should be equal to` 12
-            score(Spare(4), Strike) `should be equal to` 20
-            score(Spare(4), Spare(5)) `should be equal to` 15
+        it("scores as ten plus the number of pins knocked down on his next turn") {
+            score( OpenFrame(1,1)) `should be equal to` 12
+            score( Strike) `should be equal to` 20
+            score(Spare(5)) `should be equal to` 20
+        }
+    }
+
+    given("a strike score calculation") {
+
+        val score: (Frame, Frame) -> Int = ::scoreStrike
+
+        it("scores as ten plus the number of pins knocked down on his next two turns") {
+            score(Spare(4), OpenFrame(1,1)) `should be equal to` 22
+            score(Strike, Strike) `should be equal to` 30
+            score(Spare(4), Spare(5)) `should be equal to` 30
         }
     }
 })

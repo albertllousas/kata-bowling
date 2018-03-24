@@ -10,7 +10,7 @@ object Strike : Frame() {
 fun Frame.pinsKnockedDown(): Int =
         when (this) {
             is Strike -> 10
-            is Spare -> this.pinsFirstRoll
+            is Spare -> 10
             is OpenFrame -> this.pinsFirstRoll + this.pinsSecondRoll
         }
 
