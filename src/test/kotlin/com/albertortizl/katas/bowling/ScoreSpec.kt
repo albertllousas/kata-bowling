@@ -41,7 +41,7 @@ object ScoreParserSpec : Spek({
 
     given("a generic frame score calculation with the frame to score and the following ones") {
 
-        val score: (Frame, Frame, Frame) -> Int = ::score
+        val score: (Frame, Frame, Frame) -> Int = ::scoreFrame
 
         it("scores an open frame") {
             score(OpenFrame(1, 6), Spare(1), Strike) `should be equal to` 7
@@ -53,6 +53,23 @@ object ScoreParserSpec : Spek({
 
         it("scores a spare") {
             score(Spare(2), OpenFrame(1, 6), Strike) `should be equal to` 17
+        }
+    }
+
+    given("a full game score function") {
+
+        val score: (Game) -> Game = ::score
+
+        it("scores 12 strikes in a row") {
+            val game = Game((1..12).toList().map { Strike }, null)
+            score(game).finalScore!! `should be equal to` 300
+
+        }
+
+        it("scores 11 spares in a row") {
+            val game = Game((1..11).toList().map { Spare(9) }, null)
+            score(game).finalScore!! `should be equal to` 150
+
         }
     }
 })
