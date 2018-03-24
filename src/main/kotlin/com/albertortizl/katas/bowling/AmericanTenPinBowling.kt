@@ -4,6 +4,6 @@ class AmericanTenPinBowling(private val gameParser: GameParser = DefaultGamePars
 
     infix fun score(frames: String): Int {
         val game: Game = gameParser.parse(frames)
-        return score(game)
+        return score(game).finalScore ?: 0
     }
 }

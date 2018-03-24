@@ -21,27 +21,27 @@ object DefaultGameParserSpec : Spek({
 
         it("should parse game with a single strike when a strike pattern is provided") {
             val game: Game = parse("X")
-            game `should equal` Game(listOf(Strike))
+            game `should equal` Game(listOf(Strike), null)
         }
 
         it("should parse game with a single Spare when a spare pattern is provided") {
             val game: Game = parse("2/")
-            game `should equal` Game(listOf(Spare(2)))
+            game `should equal` Game(listOf(Spare(2)),null)
         }
 
         it("should parse game with a single Spare when a spare pattern with a miss is provided") {
             val game: Game = parse("-/")
-            game `should equal` Game(listOf(Spare(0)))
+            game `should equal` Game(listOf(Spare(0)),null)
         }
 
         it("should parse game with a single OpenFrame when a open frame pattern is provided") {
             val game: Game = parse("22")
-            game `should equal` Game(listOf(OpenFrame(2, 2)))
+            game `should equal` Game(listOf(OpenFrame(2, 2)), null)
         }
 
         it("should parse game with a single OpenFrame when a open frame pattern with a miss is provided") {
             val game: Game = parse("2-")
-            game `should equal` Game(listOf(OpenFrame(2, 0)))
+            game `should equal` Game(listOf(OpenFrame(2, 0)), null)
         }
 
         it("should parse game with when a full frame pattern is provided") {
@@ -57,7 +57,7 @@ object DefaultGameParserSpec : Spek({
                             Spare(0),
                             OpenFrame(4, 4),
                             OpenFrame(1, 1)
-                    ))
+                    ), null)
         }
 
     }

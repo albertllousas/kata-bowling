@@ -15,7 +15,8 @@ internal fun score(currentFrame: Frame, nextFrame: Frame, nextOfTheFollowing: Fr
         }
 
 
-fun score(game: Game): Int {
+fun score(game:Game): Game {
 
-    return 0
+    return Game(emptyList(),0)
 }
+

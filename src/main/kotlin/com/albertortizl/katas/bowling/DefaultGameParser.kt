@@ -21,7 +21,7 @@ object DefaultGameParser: GameParser{
                         else -> throw IllegalArgumentException("'$frame' is not a valid pattern")
                     }
                 })
-        return Game(allFrames)
+        return Game(allFrames, null)
     }
 
     fun asSpare(spare:String): Spare = Spare(spare.substring(0..0).toInt())
