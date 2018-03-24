@@ -12,8 +12,19 @@ object ScoreParserSpec : Spek({
 
         val score: (OpenFrame) -> Int = ::score
 
-        it("should score as the sum of the two tries") {
+        it("scores as the total number of pins knocked down in his two tries") {
             score(OpenFrame(1, 6)) `should be equal to` 7
+        }
+    }
+
+    given("a spare score calculation") {
+
+        val score: (Spare, Frame) -> Int = ::score
+
+        it("scores as ten plus the number of pins knocked down on his next throw") {
+            score(Spare(4), OpenFrame(1,1)) `should be equal to` 12
+            score(Spare(4), Strike) `should be equal to` 20
+            score(Spare(4), Spare(5)) `should be equal to` 15
         }
     }
 })
