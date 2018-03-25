@@ -5,6 +5,7 @@ object DefaultGameParser: GameParser{
     private const val WHITE_SPACE = " "
     private const val MISS = "-"
     private const val ZERO = "0"
+    private val regexBonusBall = Regex("[0-9]")
     private val regexStrike = Regex("X")
     private val regexSpare = Regex("[0-9]\\/")
     private val regexOpenFrame = Regex("[0-9]{2}")
@@ -18,11 +19,14 @@ object DefaultGameParser: GameParser{
                         regexStrike.matches(frame) -> Strike
                         regexSpare.matches(frame) -> asSpare(frame)
                         regexOpenFrame.matches(frame) -> asOpenFrame(frame)
+                        regexBonusBall.matches(frame) -> asBonusBall(frame)
                         else -> throw IllegalArgumentException("'$frame' is not a valid pattern")
                     }
                 })
         return Game(allFrames, null)
     }
+
+    fun asBonusBall(spare:String): BonusBall = BonusBall(spare.substring(0..0).toInt())
 
     fun asSpare(spare:String): Spare = Spare(spare.substring(0..0).toInt())
 

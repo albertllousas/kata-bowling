@@ -66,12 +66,27 @@ object DefaultGameParserSpec : Spek({
 
         val asSpare = DefaultGameParser::asSpare
 
-        it("should convert to Spare entity when spare is valid") {
+        it("should convert to Spare entity when spare pattern is valid") {
             asSpare("5/") `should equal` Spare(5)
         }
 
         it("should convert to Spare entity when only the first character is valid") {
             asSpare("555") `should equal` Spare(5)
+        }
+
+    }
+
+
+    given("string to bonus ball converter") {
+
+        val asBonusBall = DefaultGameParser::asBonusBall
+
+        it("should convert to BonusBall entity when bonus ball pattern is valid") {
+            asBonusBall("5") `should equal` BonusBall(5)
+        }
+
+        it("should convert to BonusBall entity when only the first character is valid") {
+            asBonusBall("555") `should equal` BonusBall(5)
         }
 
     }

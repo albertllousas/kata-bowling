@@ -1,39 +1,35 @@
 package com.albertortizl.katas.bowling
 
 
-internal fun scoreOpenFrame(openFrame: OpenFrame): Int = openFrame.pinsKnockedDown()
-
-internal fun scoreSpare(nextFrame: Frame): Int = 10 + nextFrame.pinsKnockedDown()
-
-internal fun scoreStrike(nextFrame: Frame, nextOfTheFollowing: Frame): Int =
-        10 + nextFrame.pinsKnockedDown() + nextOfTheFollowing.pinsKnockedDown()
-
-internal fun scoreFrame(currentFrame: Frame, nextFrame: Frame?, nextOfTheFollowing: Frame?): Int =
+fun scoreFrame(currentFrame: Frame, nextFrame: Frame?, nextOfTheFollowing: Frame?): Int =
         when (currentFrame) {
-            is Strike ->
-                if (nextFrame != null && nextOfTheFollowing != null) scoreStrike(nextFrame, nextOfTheFollowing) else 0
-            is Spare -> nextFrame?.let { scoreSpare(it) } ?: 0
-            is OpenFrame -> scoreOpenFrame(currentFrame)
+            is Strike -> scoreStrike(nextFrame, nextOfTheFollowing)
+            is Spare -> nextFrame?.let { 10 + nextFrame.pinsKnockedDownOnFirstRoll() } ?: 0
+            is OpenFrame, is BonusBall -> currentFrame.totalOfPinsKnockedDown()
+
+        }
+
+private fun scoreStrike(nextFrame: Frame?, nextOfTheFollowing: Frame?): Int =
+        when (nextFrame) {
+            is Strike?, is BonusBall? ->
+                10 + (nextFrame?.totalOfPinsKnockedDown() ?: 0) + (nextOfTheFollowing?.pinsKnockedDownOnFirstRoll() ?: 0)
+            else -> 10 + (nextFrame?.pinsKnockedDownOnFirstRoll() ?: 0)
         }
 
 
 fun score(game: Game): Game {
     require(game.hasValidNumberOfFrames()) { "Invalid number of frames, was ${game.frames.size}" }
-    val finalScore = score(game.frames, 0)
-    return Game(frames = game.frames.toList(), finalScore = finalScore)
+    return Game(frames = game.frames.toList(), finalScore = score(game.frames, 1, 0))
 }
 
 
-tailrec private fun score(rest: List<Frame>, accumulator: Int): Int =
+private fun score(rest: List<Frame>, turn: Int, accumulator: Int): Int =
         when {
-            rest.isEmpty() -> accumulator
+            rest.isEmpty() || turn > 10 -> accumulator
             else -> {
-                val current: Frame = rest.first()
-                val next: Frame? = rest.getOrNull(1)
-                val nextOfTheFollowing: Frame? = rest.getOrNull(2)
                 val tail = rest.drop(1)
-                val newAccumulator = accumulator + scoreFrame(current, next, nextOfTheFollowing)
-                score(tail, newAccumulator)
+                val newAccumulator = accumulator + scoreFrame(rest.first(), rest.getOrNull(1), rest.getOrNull(2))
+                score(tail, turn.inc(), newAccumulator)
             }
         }
 
