@@ -81,8 +81,12 @@ object DefaultGameParserSpec : Spek({
 
         val asBonusBall = DefaultGameParser::asBonusBall
 
-        it("should convert to BonusBall entity when bonus ball pattern is valid") {
+        it("should convert to BonusBall when string pattern is a number ( roll without knocking down all the pins") {
             asBonusBall("5") `should equal` BonusBall(5)
+        }
+
+        it("should convert to BonusBall when string pattern is a X ( roll knocking down all the pins") {
+            asBonusBall("X") `should equal` BonusBall(10)
         }
 
         it("should convert to BonusBall entity when only the first character is valid") {

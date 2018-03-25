@@ -1,12 +1,13 @@
 package com.albertortizl.katas.bowling
 
-object DefaultGameParser: GameParser{
+object DefaultGameParser : GameParser {
 
     private const val WHITE_SPACE = " "
     private const val MISS = "-"
     private const val ZERO = "0"
-    private val regexBonusBall = Regex("[0-9]")
-    private val regexStrike = Regex("X")
+    private const val STRIKE = "X"
+    private val regexBonusBall = Regex("[0-9]|$STRIKE")
+    private val regexStrike = Regex(STRIKE)
     private val regexSpare = Regex("[0-9]\\/")
     private val regexOpenFrame = Regex("[0-9]{2}")
 
@@ -26,11 +27,15 @@ object DefaultGameParser: GameParser{
         return Game(allFrames, null)
     }
 
-    fun asBonusBall(spare:String): BonusBall = BonusBall(spare.substring(0..0).toInt())
+    fun asBonusBall(bonusBall: String): BonusBall =
+            when (bonusBall) {
+                STRIKE -> BonusBall(10)
+                else -> BonusBall(bonusBall.substring(0..0).toInt())
+            }
 
-    fun asSpare(spare:String): Spare = Spare(spare.substring(0..0).toInt())
+    fun asSpare(spare: String): Spare = Spare(spare.substring(0..0).toInt())
 
-    fun asOpenFrame(openFrame:String): OpenFrame = OpenFrame(
+    fun asOpenFrame(openFrame: String): OpenFrame = OpenFrame(
             openFrame.substring(0..0).toInt(),
             openFrame.substring(1).toInt()
     )
