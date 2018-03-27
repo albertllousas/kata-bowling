@@ -10,44 +10,111 @@ import org.jetbrains.spek.api.dsl.it
 
 object DefaultGameParserSpec : Spek({
 
-    given("a game parser") {
+    given("a string to single frame parser") {
 
-        val parse = DefaultGameParser::parse
+        val parse = DefaultGameParser::asFrame
 
-        it("should fail when an empty string is provided") {
+        it("should fail parsing an empty string") {
             val func = { parse("") }
             func `should throw` IllegalArgumentException::class `with message` "'' is not a valid pattern"
         }
 
-        it("should parse game with a single strike when a strike pattern is provided") {
-            val game: Game = parse("X")
-            game `should equal` Game(listOf(Strike), null)
+        it("should parse a strike") {
+            parse("X") `should equal` Strike
         }
 
-        it("should parse game with a single Spare when a spare pattern is provided") {
-            val game: Game = parse("2/")
-            game `should equal` Game(listOf(Spare(2)),null)
+        it("should parse a spare with some pins knocked down in the first roll") {
+            parse("2/") `should equal` Spare(2)
         }
 
-        it("should parse game with a single Spare when a spare pattern with a miss is provided") {
-            val game: Game = parse("-/")
-            game `should equal` Game(listOf(Spare(0)),null)
+        it("should parse a spare with a miss in the first roll") {
+            parse("-/") `should equal` Spare(0)
         }
 
-        it("should parse game with a single OpenFrame when a open frame pattern is provided") {
-            val game: Game = parse("22")
-            game `should equal` Game(listOf(OpenFrame(2, 2)), null)
+        it("should fail parsing a spare with a non valid number in the first roll") {
+            val func = { parse("10/") }
+            func `should throw` IllegalArgumentException::class `with message` "'10/' is not a valid pattern"
         }
 
-        it("should parse game with a single OpenFrame when a open frame pattern with a miss is provided") {
-            val game: Game = parse("2-")
-            game `should equal` Game(listOf(OpenFrame(2, 0)), null)
+        it("should parse an open frame with some pins knocked down in both rolls") {
+            parse("25") `should equal` OpenFrame(2, 5)
         }
 
-        it("should parse game with when a full frame pattern is provided") {
+        it("should parse an open frame with all misses") {
+            parse("--") `should equal` OpenFrame(0, 0)
+        }
+
+        it("should parse an open frame with a miss in the first roll") {
+            parse("-5") `should equal` OpenFrame(0, 5)
+        }
+
+        it("should parse an open frame with a miss in the second roll") {
+            parse("90") `should equal` OpenFrame(9, 0)
+        }
+
+        it("should fail parsing an open frame with a non valid number in the second roll") {
+            val func = { parse("199") }
+            func `should throw` IllegalArgumentException::class `with message` "'199' is not a valid pattern"
+        }
+
+    }
+
+    given("a string to single last frame parser") {
+
+        val parse = DefaultGameParser::asLastFrame
+
+        it("should parse a final frame with a three strikes") {
+            parse("XXX") `should equal` LastFrame(Strike, 10, 10)
+        }
+
+        it("should parse a final frame with a Strike and Spare") {
+            parse("X1/") `should equal` LastFrame(Strike, 1, 9)
+        }
+
+        it("should parse a final frame with a Strike and two extra balls") {
+            parse("X11") `should equal` LastFrame(Strike, 1, 1)
+        }
+
+        it("should parse a final frame with a Strike and two extra balls with a miss") {
+            parse("X1-") `should equal` LastFrame(Strike, 1, 0)
+        }
+
+        it("should parse a final frame with an open frame ") {
+            parse("22") `should equal` LastFrame(OpenFrame(2, 2), null, null)
+        }
+
+        it("should parse a final frame with spare and Strike ") {
+            parse("2/X") `should equal` LastFrame(Spare(2), 10, null)
+        }
+
+        it("should parse a final frame with spare and an extra ball") {
+            parse("2/1") `should equal` LastFrame(Spare(2), 1, null)
+        }
+    }
+
+    given("a string to a full game parser") {
+
+        val parse = DefaultGameParser::parse
+
+        it("should parse a game with a 12 strikes in a row") {
+            val game: Game = parse("X X X X X X X X X XXX")
+            game `should equal` Game(
+                    (1..9).toList().map { Strike } + LastFrame(Strike, 10, 10),
+                    null)
+        }
+
+        it("should parse a game with 10 pairs of 5 and spare and a final 5") {
+            val game: Game = parse("5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/5")
+            game `should equal` Game(
+                    (1..9).toList().map { Spare(5) } + LastFrame(Spare(5), 5, null),
+                    null)
+        }
+
+        it("should parse a game with a full game pattern") {
             val game: Game = parse("X 9/ X 54 -- -2 1- -/ 44 11")
-            game `should equal` game `should equal` Game(
-                    listOf(Strike,
+            game `should equal` Game(
+                    listOf(
+                            Strike,
                             Spare(9),
                             Strike,
                             OpenFrame(5, 4),
@@ -56,62 +123,11 @@ object DefaultGameParserSpec : Spek({
                             OpenFrame(1, 0),
                             Spare(0),
                             OpenFrame(4, 4),
-                            OpenFrame(1, 1)
+                            LastFrame(OpenFrame(1, 1))
                     ), null)
         }
 
     }
 
-    given("string to spare converter") {
 
-        val asSpare = DefaultGameParser::asSpare
-
-        it("should convert to Spare entity when spare pattern is valid") {
-            asSpare("5/") `should equal` Spare(5)
-        }
-
-        it("should convert to Spare entity when only the first character is valid") {
-            asSpare("555") `should equal` Spare(5)
-        }
-
-    }
-
-
-    given("string to bonus ball converter") {
-
-        val asBonusBall = DefaultGameParser::asBonusBall
-
-        it("should convert to BonusBall when string pattern is a number ( roll without knocking down all the pins") {
-            asBonusBall("5") `should equal` BonusBall(5)
-        }
-
-        it("should convert to BonusBall when string pattern is a X ( roll knocking down all the pins") {
-            asBonusBall("X") `should equal` BonusBall(10)
-        }
-
-        it("should convert to BonusBall entity when only the first character is valid") {
-            asBonusBall("555") `should equal` BonusBall(5)
-        }
-
-    }
-
-
-    given("string to open frame converter") {
-
-        val asOpenFrame = DefaultGameParser::asOpenFrame
-
-        it("should convert to OpenFrame entity when spare is valid") {
-            asOpenFrame("54") `should equal` OpenFrame(5, 4)
-        }
-
-        it("should fail to OpenFrame entity when spare is invalid") {
-            val func = { asOpenFrame("X") }
-            func `should throw` NumberFormatException::class
-        }
-
-        it("should convert to Spare when there is more than two characters") {
-            asOpenFrame("5555") `should equal` OpenFrame(5, 555)
-        }
-
-    }
 })

@@ -26,21 +26,23 @@ Each game, or “line” of bowling, includes ten turns, or “frames” for the
 - If he gets a spare or strike in the last (tenth) frame, the bowler gets to throw one or two more bonus balls, respectively. These bonus throws are taken as part of the same turn. If the bonus throws knock down all the pins, the process does not repeat: the bonus throws are only used to calculate the score of the final frame.
 - The game score is the total of all frame scores.
 
-More info on the rules at: [How to Score for Bowling](https://www.topendsports.com/sport/tenpin/scoring.htm)
+More info on the rules at:
+ 
+ - [How to Score for Bowling](https://www.topendsports.com/sport/tenpin/scoring.htm)
+ - [Keeping_Score](https://www.bowl.com/Welcome/Welcome_Home/Keeping_Score/)
+ - [Bowling score online calculator](http://www.bowlinggenius.com/)
 
-###  Clues
-What makes this game interesting to score is the lookahead in the scoring for strike and spare. At the time we throw a strike or spare, we cannot calculate the frame score: we have to wait one or two frames to find out what the bonus is.
 
-###  Suggested Test Cases
+### Problem input/output
 (When scoring “X” indicates a strike, “/” indicates a spare, “-” indicates a miss)
 
-- X X X X X X X X X X X X (12 rolls: 12 strikes) = 10 frames * 30 points = 300
+- X X X X X X X X X XXX (12 rolls: 12 strikes) = 10 frames * 30 points = 300
 - 9- 9- 9- 9- 9- 9- 9- 9- 9- 9- (20 rolls: 10 pairs of 9 and miss) = 10 frames * 9 points = 90
-- 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5 (21 rolls: 10 pairs of 5 and spare, with a final 5) = 10 frames * 15 points = 150
+- 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/5 (21 rolls: 10 pairs of 5 and spare, with a final 5) = 10 frames * 15 points = 150
 
 ## The Solution
 
-The solution could be easier, just parsing the string, but part of the problem was explore kotlin and its features bla bla bla
+The solution could be easier, just parsing the string, but part of the problem was explore kotlin and its features
 
 ### Environment
 ```bash
