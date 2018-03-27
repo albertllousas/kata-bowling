@@ -16,7 +16,7 @@ Here are some things that the program will not do:
 
 Basically a bowling game consist to roll a ball down a bowling lane to knock down the pins at the end of the lane.
 
-![bowling](bowling.png)
+![bowling](bowling_game.png)
 
 #### Scoring Rules
 
@@ -135,7 +135,7 @@ bowlingGame score "X 3/ 6-1 X X X 2/ 9-0 7/ XXX"
 
 ##### Model
 
-The model is pretty simple and represents a bowling game sheet:
+The model is pretty simple and represents a bowling game sheet.
 
 A game is a list of frames and a final score (intermediate scores are out of the problem)
 ```kotlin
@@ -150,6 +150,30 @@ data class Spare(val pinsFirstRoll: Int) : Frame()
 object Strike : Frame()
 data class Tenth(val frame: Frame, val firstExtraBall: Int? = null, val secondExtraBall: Int? = null) : Frame()
 ```
+
+##### Parsing
+
+The parsing is just a function:
+ ```
+ (String) -> Game
+ ```
+ There is a default implementation provided by default made for the specifics of the problem input, but it can be
+ override using dependency injection.
+ The override should be done in the main class implementing an interface with a one method
+ ```kotlin
+  interface GameParser {
+      fun parse(frames: String): Game
+  }
+  ```
+ Implementing your own parser:
+ ```kotlin
+ val myCoolParser:GameParser = MyCoolParserImplementation
+ val bowlingGame = AmericanTenPinBowling(myCoolParser)
+ bowlingGame score "your_patterns"
+ ```
+   
+##### Scoring algorithm
+
 
 
 
