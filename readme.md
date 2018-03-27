@@ -17,6 +17,8 @@ I think you’ll see that improvements like those above would go in readily if t
 
 We can briefly summarize the scoring for this form of bowling:
 
+mezclar esto
+
 Each game, or “line” of bowling, includes ten turns, or “frames” for the bowler.
 
 - In each frame, the bowler gets up to two tries to knock down all the pins.
@@ -25,6 +27,32 @@ Each game, or “line” of bowling, includes ten turns, or “frames” for the
 - If on his first try in the frame he knocks down all the pins, this is called a “strike”. His turn is over, and his score for the frame is ten plus the simple total of the pins knocked down in his next two rolls.
 - If he gets a spare or strike in the last (tenth) frame, the bowler gets to throw one or two more bonus balls, respectively. These bonus throws are taken as part of the same turn. If the bonus throws knock down all the pins, the process does not repeat: the bonus throws are only used to calculate the score of the final frame.
 - The game score is the total of all frame scores.
+
+Scoring Rules
+
+- In each frame, the bowler gets up to two tries to knock down all the pins.
+
+Strike
+If you knock down all 10 pins in the first shot of a frame, you get a strike.
+How to score: A strike earns 10 points plus the sum of your next two shots.
+
+Spare
+
+If you knock down all 10 pins using both shots of a frame, you get a spare.
+How to score: A spare earns 10 points plus the sum of your next one shot.
+
+Open Frame
+
+If you do not knock down all 10 pins using both shots of your frame (9 or fewer pins knocked down), you have an open frame.
+How to score: An open frame only earns the number of pins knocked down.
+
+The 10th Frame
+
+The 10th frame is a bit different:
+If you roll a strike in the first shot of the 10th frame, you get 2 more shots.
+If you roll a spare in the first two shots of the 10th frame, you get 1 more shot.
+If you leave the 10th frame open after two shots, the game is over and you do not get an additional shot.
+How to Score: The score for the 10th frame is the total number of pins knocked down in the 10th frame.
 
 More info on the rules at:
  
@@ -70,3 +98,24 @@ OS:           Mac OS X 10.13.3 x86_64
 ```bash
 gradle test 
 ```
+
+### Approach
+
+Immutable and functional.
+Just immutable domain and functions
+
+https://stackoverflow.com/questions/14494747/add-images-to-readme-md-on-github
+http://www.fryes4fun.com/Bowling/scoring.htm
+https://github.com/hontas/bowling-game-kata/blob/master/README.md
+
+Model
+Image de https://github.com/hontas/bowling-game-kata/blob/master/README.md
+Explanation:-> 
+10 frames is a game
+Frame can be:  poner la class
+Solution design 
+- parsing
+- model
+- score algorithm 
+explain algorithm 
+
