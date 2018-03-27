@@ -16,7 +16,7 @@ object DefaultGameParserSpec : Spek({
 
         it("should fail parsing an empty string") {
             val func = { parse("") }
-            func `should throw` IllegalArgumentException::class `with message` "'' is not a valid pattern"
+            func `should throw` IllegalArgumentException::class `with message` "Invalid frame ''"
         }
 
         it("should parse a strike") {
@@ -31,9 +31,9 @@ object DefaultGameParserSpec : Spek({
             parse("-/") `should equal` Spare(0)
         }
 
-        it("should fail parsing a spare with a non valid number in the first roll") {
-            val func = { parse("10/") }
-            func `should throw` IllegalArgumentException::class `with message` "'10/' is not a valid pattern"
+        it("should fail parsing a frame with a more characters than expected") {
+            val func = { parse("1000") }
+            func `should throw` IllegalArgumentException::class `with message` "Invalid frame '1000'"
         }
 
         it("should parse an open frame with some pins knocked down in both rolls") {
@@ -52,17 +52,6 @@ object DefaultGameParserSpec : Spek({
             parse("90") `should equal` OpenFrame(9, 0)
         }
 
-        it("should fail parsing an open frame with a non valid number in the second roll") {
-            val func = { parse("199") }
-            func `should throw` IllegalArgumentException::class `with message` "'199' is not a valid pattern"
-        }
-
-    }
-
-    given("a string to single last frame parser") {
-
-        val parse = DefaultGameParser::asLastFrame
-
         it("should parse a final frame with a three strikes") {
             parse("XXX") `should equal` LastFrame(Strike, 10, 10)
         }
@@ -77,10 +66,6 @@ object DefaultGameParserSpec : Spek({
 
         it("should parse a final frame with a Strike and two extra balls with a miss") {
             parse("X1-") `should equal` LastFrame(Strike, 1, 0)
-        }
-
-        it("should parse a final frame with an open frame ") {
-            parse("22") `should equal` LastFrame(OpenFrame(2, 2), null, null)
         }
 
         it("should parse a final frame with spare and Strike ") {

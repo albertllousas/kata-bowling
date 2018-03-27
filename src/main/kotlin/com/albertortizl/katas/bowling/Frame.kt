@@ -1,13 +1,23 @@
 package com.albertortizl.katas.bowling
 
-sealed class Frame
+sealed class Frame {
+    companion object
+}
 data class OpenFrame(val pinsFirstRoll: Int, val pinsSecondRoll: Int) : Frame()
 data class Spare(val pinsFirstRoll: Int) : Frame()
-object Strike : Frame() {
-    override fun toString() = "Strike"
-}
+object Strike : Frame()
 data class LastFrame(val frame: Frame, val firstExtraBall: Int? = null, val secondExtraBall: Int? = null) : Frame()
 
+fun Frame.Companion.fromRolls(firstRoll: Int, secondRoll: Int? = null, thirdRoll: Int? = null): Frame =
+        when {
+            firstRoll == 10 && thirdRoll != null ->
+                LastFrame(frame = Strike, firstExtraBall = secondRoll, secondExtraBall = thirdRoll)
+            thirdRoll != null ->
+                LastFrame(frame = fromRolls(firstRoll, secondRoll), firstExtraBall = thirdRoll)
+            firstRoll == 10 -> Strike
+            firstRoll + (secondRoll ?: 0) == 10 -> Spare(firstRoll)
+            else -> OpenFrame(firstRoll, secondRoll ?: 0)
+        }
 
 fun Frame.pinsOfFirstRoll(): Int =
         when (this) {
