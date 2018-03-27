@@ -84,15 +84,15 @@ object DefaultGameParserSpec : Spek({
         it("should parse a game with a 12 strikes in a row") {
             val game: Game = parse("X X X X X X X X X XXX")
             game `should equal` Game(
-                    (1..9).toList().map { Strike } + Tenth(Strike, 10, 10),
-                    null)
+                    (1..9).toList().map { Strike } + Tenth(Strike, 10, 10)
+                    )
         }
 
         it("should parse a game with 10 pairs of 5 and spare and a final 5") {
             val game: Game = parse("5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/5")
             game `should equal` Game(
-                    (1..9).toList().map { Spare(5) } + Tenth(Spare(5), 5, null),
-                    null)
+                    (1..9).toList().map { Spare(5) } + Tenth(Spare(5), 5, null)
+                    )
         }
 
         it("should parse a game with a full game pattern") {

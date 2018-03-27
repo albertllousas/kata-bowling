@@ -55,24 +55,24 @@ object ScoreParserSpec : Spek({
 
     given("a full game score function") {
 
-        val score: (Game) -> Game = ::score
+        val score: (Game) -> Int = ::score
 
         it("should fail trying to score a game with invalid number of frames") {
             val game = Game(listOf(Strike))
-            val func = { score(game).total!! }
+            val func = { score(game) }
             func `should throw` IllegalArgumentException::class `with message` "Invalid number of frames, was 1 and must be 10"
 
         }
 
         it("should score a game with 12 strikes in a row") {
-            val game = Game((1..9).toList().map { Strike } + Tenth(Strike,10,10), null)
-            score(game).total!! `should be equal to` 300
+            val game = Game((1..9).toList().map { Strike } + Tenth(Strike,10,10))
+            score(game) `should be equal to` 300
 
         }
 
         it("should score a game with 10 pairs of 5 and spare and a final 5") {
-            val game = Game((1..9).toList().map { Spare(5) } + Tenth(Spare(5),5), null)
-            score(game).total!! `should be equal to` 150
+            val game = Game((1..9).toList().map { Spare(5) } + Tenth(Spare(5),5))
+            score(game) `should be equal to` 150
 
         }
 
@@ -90,7 +90,7 @@ object ScoreParserSpec : Spek({
                             Strike,
                             Tenth(Strike,8,1)
                     ))
-            score(game).total!! `should be equal to` 167
+            score(game) `should be equal to` 167
         }
     }
 })

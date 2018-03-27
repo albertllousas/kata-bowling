@@ -13,7 +13,7 @@ object DefaultGameParser : GameParser {
 
     override fun parse(frames: String): Game {
         val allFrames = frames.split(WHITE_SPACE).map(::asFrame)
-        return Game(allFrames, null)
+        return Game(allFrames)
     }
 
     fun asFrame(frame: String): Frame {

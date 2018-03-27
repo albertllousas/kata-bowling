@@ -22,9 +22,9 @@ private fun getNextTwoRolls(nextFrame: Frame?, nextOfTheFollowing: Frame?): Pair
         }
 
 
-fun score(game: Game): Game {
+fun score(game: Game): Int {
     require(game.frames.size == TEN) { "Invalid number of frames, was ${game.frames.size} and must be 10" }
-    return Game(game.frames.toList(), score(game.frames, 1, 0))
+    return score(game.frames, 1, 0)
 }
 
 

@@ -35,14 +35,14 @@ frame and each ball. By convention, they use an X to represent a strike and a /
 **Strike**
 - If you knock down all 10 pins in the first shot of a frame, you get a strike.
 - You won't roll the next ball in this frame.
-- A strike is marked with **X** in the frame
+- A strike is marked with '**X**' in the frame
 
 How to score: A strike earns 10 points plus the sum of your next two shots.
 
 **Spare**
 
 - If you knock down all 10 pins using both shots of a frame, you get a spare.
-- An spare is marked with the number of pins knocked down in the first shoot and a **/** in the frame.
+- An spare is marked with the number of pins knocked down in the first shoot and a '**/**' in the frame.
 
 How to score: A spare earns 10 points plus the sum of your next one shot.
 
@@ -54,7 +54,7 @@ How to score: An open frame only earns the number of pins knocked down.
 
 **Miss**
 - If in one shoot you don't knock down any pin, it is a miss.
-- An spare is marked with **-** in the frame
+- An spare is marked with '**-**' in the frame
 
 How to score: A miss not count
 
@@ -133,7 +133,7 @@ val bowlingGame = AmericanTenPinBowling()
 bowlingGame score "X 3/ 6-1 X X X 2/ 9-0 7/ XXX"
 ```
 
-##### Model
+#### Model
 
 The model is pretty simple and represents a bowling game sheet.
 
@@ -151,9 +151,9 @@ object Strike : Frame()
 data class Tenth(val frame: Frame, val firstExtraBall: Int? = null, val secondExtraBall: Int? = null) : Frame()
 ```
 
-##### Parsing
+#### Parsing
 
-The parsing is just a function:
+The parsing is just a pure function:
  ```
  (String) -> Game
  ```
@@ -172,8 +172,22 @@ The parsing is just a function:
  bowlingGame score "your_patterns"
  ```
    
-##### Scoring algorithm
+#### Scoring algorithm
 
+The score algorithm is also a pure function that:
+ ```
+ Game -> Int
+ ```
+
+The algorithm is recursive:
+
+- Given a current frame and a accumulate score
+- Call a score frame function with the current frame, the next and the next of the following if they exists
+```
+ (Frame, Frame?, Frame?) -> Int
+ ```
+- Accumulate the result
+- Call recursively same method with the next frame to score
 
 
 
