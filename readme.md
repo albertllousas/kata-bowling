@@ -64,8 +64,8 @@ How to Score: The score for the 10th frame is the total number of pins knocked d
 
 More info on the rules at:
  
- - [How to Score for Bowling](https://www.topendsports.com/sport/tenpin/scoring.htm)
- - [Keeping_Score](https://www.bowl.com/Welcome/Welcome_Home/Keeping_Score/)
+ - [How to score for Bowling](https://www.topendsports.com/sport/tenpin/scoring.htm)
+ - [Keeping score](https://www.bowl.com/Welcome/Welcome_Home/Keeping_Score/)
  - [Bowling score online calculator](http://www.bowlinggenius.com/)
 
 
@@ -77,7 +77,7 @@ More info on the rules at:
 - 9- 9- 9- 9- 9- 9- 9- 9- 9- 9- (20 rolls: 10 pairs of 9 and miss) = 10 frames * 9 points = 90
 - 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/5 (21 rolls: 10 pairs of 5 and spare, with a final 5) = 10 frames * 15 points = 150
 
-## The Solution
+## The solution
 
 I tried through TDD to create a clean, immutable and functional solution with a rich domain.
 
@@ -113,7 +113,7 @@ gradle test
 
 ### Build and run the app
 
-It is a very simple command line runner for the app that expose the api:
+A very simple command line runner is provided to expose the api:
 
 ```bash
 gradle clean build
