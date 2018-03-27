@@ -10,33 +10,26 @@ object FrameSpec : Spek({
 
     given("a frame from rolls function") {
 
-        it("should parse a strike") {
+        it("should create a strike from one roll knocking down all pins") {
             Frame.fromRolls(10) `should equal` Strike
         }
 
-        it("should parse a spare ") {
+        it("should create a spare from two rolls knocking down all pins") {
             Frame.fromRolls(1,9) `should equal` Spare(1)
         }
 
-        it("should parse an open frame ") {
+        it("should create an open frame from two rolls knocking down not all pins") {
             Frame.fromRolls(2,5) `should equal` OpenFrame(2, 5)
         }
 
-        it("should parse a final frame with a three strikes") {
+        it("should create a last frame with a strike and two extra balls when first of three balls knocks down all pins") {
             Frame.fromRolls(10,10,10) `should equal` LastFrame(Strike, 10, 10)
         }
 
-        it("should parse a final frame with a strike and spare") {
-            Frame.fromRolls(10,1,9) `should equal` LastFrame(Strike, 1, 9)
-        }
-
-        it("should parse a final frame with a spare and strike") {
+        it("should parse a final frame with a spare and one extra ball when first and second of three balls knock down all pins") {
             Frame.fromRolls(5,5,10) `should equal` LastFrame(Spare(5), 10 )
         }
 
-        it("should parse a final frame with an open frame") {
-            Frame.fromRolls(5,4) `should equal` LastFrame(OpenFrame(5, 4))
-        }
     }
 })
 

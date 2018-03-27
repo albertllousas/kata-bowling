@@ -108,8 +108,8 @@ object DefaultGameParserSpec : Spek({
                             OpenFrame(1, 0),
                             Spare(0),
                             OpenFrame(4, 4),
-                            LastFrame(OpenFrame(1, 1))
-                    ), null)
+                            OpenFrame(1, 1)
+                    ))
         }
 
     }

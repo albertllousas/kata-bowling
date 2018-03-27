@@ -12,7 +12,7 @@ fun scoreFrame(currentFrame: Frame, nextFrame: Frame?, nextOfTheFollowing: Frame
     }
 }
 
-fun getNextTwoRolls(nextFrame: Frame?, nextOfTheFollowing: Frame?): Pair<Int, Int> =
+private fun getNextTwoRolls(nextFrame: Frame?, nextOfTheFollowing: Frame?): Pair<Int, Int> =
         when (nextFrame) {
             is Strike? -> Pair(10, nextOfTheFollowing?.pinsOfFirstRoll() ?: 0)
             is OpenFrame? -> Pair(nextFrame?.pinsFirstRoll ?: 0, nextFrame?.pinsSecondRoll ?: 0)
@@ -23,7 +23,7 @@ fun getNextTwoRolls(nextFrame: Frame?, nextOfTheFollowing: Frame?): Pair<Int, In
 
 
 fun score(game: Game): Game {
-    require(game.frames.size == TEN) { "Invalid number of frames, was ${game.frames.size}" }
+    require(game.frames.size == TEN) { "Invalid number of frames, was ${game.frames.size} and must be 10" }
     return Game(game.frames.toList(), score(game.frames, 1, 0))
 }
 
