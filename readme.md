@@ -6,12 +6,6 @@
 
 Create a program, which, given a valid sequence of rolls for one line of American Ten-Pin Bowling, produces the total score for the game. 
 
-Here are some things that the program will not do:
-
-- We will not check for valid rolls.
-- We will not check for correct number of rolls and frames.
-- We will not provide scores for intermediate frames.
-
 #### Brief description
 
 Basically a bowling game consist to roll a ball down a bowling lane to knock down the pins at the end of the lane.
@@ -30,14 +24,14 @@ frame and each ball. By convention, they use an X to represent a strike and a /
 
 ![Bowling sheet](bowling_sheet.png)
 
-- In each frame, the bowler gets up to two tries to knock down all the pins.
+- In each frame, the bowler can use **one or two shots** to knock down all the pins.
 
 **Strike**
 - If you knock down all 10 pins in the first shot of a frame, you get a strike.
 - You won't roll the next ball in this frame.
 - A strike is marked with '**X**' in the frame
 
-How to score: A strike earns 10 points plus the sum of your next two shots.
+How to score: A strike earns 10 points plus the sum of your next two shots. 
 
 **Spare**
 
@@ -117,6 +111,16 @@ OS:           Mac OS X 10.13.3 x86_64
 gradle test 
 ```
 
+### Build and run the app
+
+It is a very simple command line runner for the app that expose the api:
+
+```bash
+gradle clean build
+java -jar build/libs/bowling-1.0-SNAPSHOT.jar "X 3/ 6-1 X X X 2/ 9-0 7/ XXX"
+193
+```
+
 ### Approach
 
 There is one single entry point for the application, it has the functionality of facade and it orchestrate the
@@ -174,12 +178,12 @@ The parsing is just a pure function:
    
 #### Scoring algorithm
 
-The score algorithm is also a pure function that:
+The score algorithm is also a pure function:
  ```
  Game -> Int
  ```
 
-The algorithm is recursive:
+The algorithm is simple and recursive:
 
 - Given a current frame and a accumulate score
 - Call a score frame function with the current frame, the next and the next of the following if they exists
@@ -189,5 +193,13 @@ The algorithm is recursive:
 - Accumulate the result
 - Call recursively same method with the next frame to score
 
+Remember: We will need to lookahead in the scoring for strike and spare. At the time we throw a strike or spare, 
+we cannot calculate the frame score: we have to wait one or two frames to find out what the bonus is.
 
+#### Out of scope / to improve
+
+- Game and frame validator, now it has some validation but not complete.
+- Extend the general api and expose the game
+- Provide intermediate and total scores as part of the domain
+- Better error handling
 
