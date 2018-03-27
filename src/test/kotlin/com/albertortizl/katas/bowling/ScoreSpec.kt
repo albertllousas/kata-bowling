@@ -28,19 +28,19 @@ object ScoreParserSpec : Spek({
         }
 
         it("should score a strike when the next two rolls are strikes in the tenth frame") {
-            scoreFrame(Strike, LastFrame(Strike,10,2), null) `should be equal to` 30
+            scoreFrame(Strike, Tenth(Strike,10,2), null) `should be equal to` 30
         }
 
         it("should score a strike when the next two rolls form a spare in the tenth frame") {
-            scoreFrame(Strike, LastFrame(Spare(2),1,null), null) `should be equal to` 20
+            scoreFrame(Strike, Tenth(Spare(2),1,null), null) `should be equal to` 20
         }
 
-        it("should score the last frame with an strike when the both extra balls know down all the pins") {
-            scoreFrame(LastFrame(Strike,10,10), null, null) `should be equal to` 30
+        it("should score the tenth frame with an strike when the both extra balls know down all the pins") {
+            scoreFrame(Tenth(Strike,10,10), null, null) `should be equal to` 30
         }
 
-        it("should score the last frame when extra balls are a spare") {
-            scoreFrame(LastFrame(Strike,1,9), null, null) `should be equal to` 20
+        it("should score the tenth frame when extra balls are a spare") {
+            scoreFrame(Tenth(Strike,1,9), null, null) `should be equal to` 20
         }
 
         it("should score spare when the next roll knocks down to pins") {
@@ -65,13 +65,13 @@ object ScoreParserSpec : Spek({
         }
 
         it("should score a game with 12 strikes in a row") {
-            val game = Game((1..9).toList().map { Strike } + LastFrame(Strike,10,10), null)
+            val game = Game((1..9).toList().map { Strike } + Tenth(Strike,10,10), null)
             score(game).total!! `should be equal to` 300
 
         }
 
         it("should score a game with 10 pairs of 5 and spare and a final 5") {
-            val game = Game((1..9).toList().map { Spare(5) } + LastFrame(Spare(5),5), null)
+            val game = Game((1..9).toList().map { Spare(5) } + Tenth(Spare(5),5), null)
             score(game).total!! `should be equal to` 150
 
         }
@@ -88,7 +88,7 @@ object ScoreParserSpec : Spek({
                             OpenFrame(0, 6),
                             Strike,
                             Strike,
-                            LastFrame(Strike,8,1)
+                            Tenth(Strike,8,1)
                     ))
             score(game).total!! `should be equal to` 167
         }

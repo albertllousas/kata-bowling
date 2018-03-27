@@ -22,12 +22,12 @@ object FrameSpec : Spek({
             Frame.fromRolls(2,5) `should equal` OpenFrame(2, 5)
         }
 
-        it("should create a last frame with a strike and two extra balls when first of three balls knocks down all pins") {
-            Frame.fromRolls(10,10,10) `should equal` LastFrame(Strike, 10, 10)
+        it("should create a tenth frame with a strike and two extra balls when first of three balls knocks down all pins") {
+            Frame.fromRolls(10,10,10) `should equal` Tenth(Strike, 10, 10)
         }
 
         it("should parse a final frame with a spare and one extra ball when first and second of three balls knock down all pins") {
-            Frame.fromRolls(5,5,10) `should equal` LastFrame(Spare(5), 10 )
+            Frame.fromRolls(5,5,10) `should equal` Tenth(Spare(5), 10 )
         }
 
     }

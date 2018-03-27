@@ -7,7 +7,7 @@ fun scoreFrame(currentFrame: Frame, nextFrame: Frame?, nextOfTheFollowing: Frame
     return when (currentFrame) {
         is Strike -> TEN + firstNextRoll + secondNextRoll
         is Spare -> TEN + firstNextRoll
-        is OpenFrame, is LastFrame -> currentFrame.totalOfPins()
+        is OpenFrame, is Tenth -> currentFrame.totalOfPins()
 
     }
 }
@@ -17,7 +17,7 @@ private fun getNextTwoRolls(nextFrame: Frame?, nextOfTheFollowing: Frame?): Pair
             is Strike? -> Pair(10, nextOfTheFollowing?.pinsOfFirstRoll() ?: 0)
             is OpenFrame? -> Pair(nextFrame?.pinsFirstRoll ?: 0, nextFrame?.pinsSecondRoll ?: 0)
             is Spare? -> Pair(nextFrame?.pinsFirstRoll ?: 0, 10 - (nextFrame?.pinsFirstRoll ?: 0))
-            is LastFrame? -> getNextTwoRolls(nextFrame?.frame, Frame.fromRolls(nextFrame?.firstExtraBall ?: 0, 0))
+            is Tenth? -> getNextTwoRolls(nextFrame?.frame, Frame.fromRolls(nextFrame?.firstExtraBall ?: 0, 0))
             null -> Pair(0, 0)
         }
 

@@ -12,46 +12,60 @@ Here are some things that the program will not do:
 - We will not check for correct number of rolls and frames.
 - We will not provide scores for intermediate frames.
 
-Depending on the application, this might or might not be a valid way to define a complete story, but we do it here for purposes of keeping the kata light. 
-I think you’ll see that improvements like those above would go in readily if they were needed for real.
+#### Brief description
+
+Basically a bowling game consist to roll a ball down a bowling lane to knock down the pins at the end of the lane.
+
+![bowling](bowling.png)
+
+#### Scoring Rules
 
 We can briefly summarize the scoring for this form of bowling:
 
-mezclar esto
-
 Each game, or “line” of bowling, includes ten turns, or “frames” for the bowler.
 
-- In each frame, the bowler gets up to two tries to knock down all the pins.
-- If in two tries, he fails to knock them all down, his score for that frame is the total number of pins knocked down in his two tries.
-- If in two tries he knocks them all down, this is called a “spare” and his score for the frame is ten plus the number of pins knocked down on his next throw (in his next turn).
-- If on his first try in the frame he knocks down all the pins, this is called a “strike”. His turn is over, and his score for the frame is ten plus the simple total of the pins knocked down in his next two rolls.
-- If he gets a spare or strike in the last (tenth) frame, the bowler gets to throw one or two more bonus balls, respectively. These bonus throws are taken as part of the same turn. If the bonus throws knock down all the pins, the process does not repeat: the bonus throws are only used to calculate the score of the final frame.
-- The game score is the total of all frame scores.
+Bowlers use a score sheet that’s organized to clearly display the score for each
+frame and each ball. By convention, they use an X to represent a strike and a /
+(slash) to represent a spare. Here’s how the game  would be scored:
 
-Scoring Rules
+![Bowling sheet](bowling_sheet.png)
 
 - In each frame, the bowler gets up to two tries to knock down all the pins.
 
-Strike
-If you knock down all 10 pins in the first shot of a frame, you get a strike.
+**Strike**
+- If you knock down all 10 pins in the first shot of a frame, you get a strike.
+- You won't roll the next ball in this frame.
+- A strike is marked with **X** in the frame
+
 How to score: A strike earns 10 points plus the sum of your next two shots.
 
-Spare
+**Spare**
 
-If you knock down all 10 pins using both shots of a frame, you get a spare.
+- If you knock down all 10 pins using both shots of a frame, you get a spare.
+- An spare is marked with the number of pins knocked down in the first shoot and a **/** in the frame.
+
 How to score: A spare earns 10 points plus the sum of your next one shot.
 
-Open Frame
+**Open Frame**
+- If you do not knock down all 10 pins using both shots of your frame (9 or fewer pins knocked down), you have an open frame.
+- Open frame is marked with the numbers of pins knocked down in the first and second shoot in the frame.
 
-If you do not knock down all 10 pins using both shots of your frame (9 or fewer pins knocked down), you have an open frame.
 How to score: An open frame only earns the number of pins knocked down.
 
-The 10th Frame
+**Miss**
+- If in one shoot you don't knock down any pin, it is a miss.
+- An spare is marked with **-** in the frame
+
+How to score: A miss not count
+
+
+**The 10th Frame**
 
 The 10th frame is a bit different:
-If you roll a strike in the first shot of the 10th frame, you get 2 more shots.
-If you roll a spare in the first two shots of the 10th frame, you get 1 more shot.
-If you leave the 10th frame open after two shots, the game is over and you do not get an additional shot.
+- If you roll a strike in the first shot of the 10th frame, you get 2 more shots.
+- If you roll a spare in the first two shots of the 10th frame, you get 1 more shot.
+- If you leave the 10th frame open after two shots, the game is over and you do not get an additional shot.
+
 How to Score: The score for the 10th frame is the total number of pins knocked down in the 10th frame.
 
 More info on the rules at:
@@ -62,6 +76,7 @@ More info on the rules at:
 
 
 ### Problem input/output
+
 (When scoring “X” indicates a strike, “/” indicates a spare, “-” indicates a miss)
 
 - X X X X X X X X X XXX (12 rolls: 12 strikes) = 10 frames * 30 points = 300
@@ -70,7 +85,10 @@ More info on the rules at:
 
 ## The Solution
 
-The solution could be easier, just parsing the string, but part of the problem was explore kotlin and its features
+I tried through TDD to create a clean, immutable and functional solution with a rich domain.
+
+The solution could be easier, from an input output perspective you could just parse the string and generate the expected score, 
+but part of the problem was to create a good design exploring kotlin and its language features.
 
 ### Environment
 ```bash
@@ -101,21 +119,37 @@ gradle test
 
 ### Approach
 
-Immutable and functional.
-Just immutable domain and functions
+There is one single entry point for the application, it has the functionality of facade and it orchestrate the
+two main parts of the implementation:
 
-https://stackoverflow.com/questions/14494747/add-images-to-readme-md-on-github
-http://www.fryes4fun.com/Bowling/scoring.htm
-https://github.com/hontas/bowling-game-kata/blob/master/README.md
+1. Parse from string to bowling game domain class structure
+2. Call score algorithm to calculate the score from domain 
 
-Model
-Image de https://github.com/hontas/bowling-game-kata/blob/master/README.md
-Explanation:-> 
-10 frames is a game
-Frame can be:  poner la class
-Solution design 
-- parsing
-- model
-- score algorithm 
-explain algorithm 
+
+Entry point: (AmericanTenPinBowling.ex)
+
+```kotlin
+val bowlingGame = AmericanTenPinBowling()
+bowlingGame score "X 3/ 6-1 X X X 2/ 9-0 7/ XXX"
+```
+
+##### Model
+
+The model is pretty simple and represents a bowling game sheet:
+
+A game is a list of frames and a final score (intermediate scores are out of the problem)
+```kotlin
+data class Game(val frames: List<Frame>, val total:Int? = null)
+```
+
+A frame is abstracted in a simple immutable data hierarchy
+```kotlin
+sealed class Frame 
+data class OpenFrame(val pinsFirstRoll: Int, val pinsSecondRoll: Int) : Frame()
+data class Spare(val pinsFirstRoll: Int) : Frame()
+object Strike : Frame()
+data class Tenth(val frame: Frame, val firstExtraBall: Int? = null, val secondExtraBall: Int? = null) : Frame()
+```
+
+
 

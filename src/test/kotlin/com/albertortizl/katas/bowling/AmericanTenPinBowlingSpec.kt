@@ -33,17 +33,17 @@ object AmericanTenPinBowlingSpec : Spek({
                 score `should be equal to` 0
             }
 
-            it("should calculate a game with two extra balls in the last frame") {
+            it("should calculate a game with two extra balls in the tenth frame") {
                 val score = bowlingGame score "X 3/ 6-1 X X X 2/ 9-0 7/ XXX"
                 score `should be equal to` 193
             }
 
-            it("should calculate a game with one extra ball in the last frame") {
+            it("should calculate a game with one extra ball in the tenth frame") {
                 val score = bowlingGame score "90 3/ 61 3/ 81 5/ 0/ 80 7/ 8/8"
                 score `should be equal to` 131
             }
 
-            it("should calculate a game with two no extra balls in the last frame") {
+            it("should calculate a game with two no extra balls in the tenth frame") {
                 val score = bowlingGame score "90 35 61 36 81 53 25 80 71 81"
                 score `should be equal to` 82
             }

@@ -53,27 +53,27 @@ object DefaultGameParserSpec : Spek({
         }
 
         it("should parse a final frame with a three strikes") {
-            parse("XXX") `should equal` LastFrame(Strike, 10, 10)
+            parse("XXX") `should equal` Tenth(Strike, 10, 10)
         }
 
         it("should parse a final frame with a Strike and Spare") {
-            parse("X1/") `should equal` LastFrame(Strike, 1, 9)
+            parse("X1/") `should equal` Tenth(Strike, 1, 9)
         }
 
         it("should parse a final frame with a Strike and two extra balls") {
-            parse("X11") `should equal` LastFrame(Strike, 1, 1)
+            parse("X11") `should equal` Tenth(Strike, 1, 1)
         }
 
         it("should parse a final frame with a Strike and two extra balls with a miss") {
-            parse("X1-") `should equal` LastFrame(Strike, 1, 0)
+            parse("X1-") `should equal` Tenth(Strike, 1, 0)
         }
 
         it("should parse a final frame with spare and Strike ") {
-            parse("2/X") `should equal` LastFrame(Spare(2), 10, null)
+            parse("2/X") `should equal` Tenth(Spare(2), 10, null)
         }
 
         it("should parse a final frame with spare and an extra ball") {
-            parse("2/1") `should equal` LastFrame(Spare(2), 1, null)
+            parse("2/1") `should equal` Tenth(Spare(2), 1, null)
         }
     }
 
@@ -84,14 +84,14 @@ object DefaultGameParserSpec : Spek({
         it("should parse a game with a 12 strikes in a row") {
             val game: Game = parse("X X X X X X X X X XXX")
             game `should equal` Game(
-                    (1..9).toList().map { Strike } + LastFrame(Strike, 10, 10),
+                    (1..9).toList().map { Strike } + Tenth(Strike, 10, 10),
                     null)
         }
 
         it("should parse a game with 10 pairs of 5 and spare and a final 5") {
             val game: Game = parse("5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/5")
             game `should equal` Game(
-                    (1..9).toList().map { Spare(5) } + LastFrame(Spare(5), 5, null),
+                    (1..9).toList().map { Spare(5) } + Tenth(Spare(5), 5, null),
                     null)
         }
 
