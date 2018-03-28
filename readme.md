@@ -79,9 +79,9 @@ More info on the rules at:
 
 ## The solution
 
-I tried through TDD to create a clean, immutable and functional solution with a rich domain.
+The solution has been coded using TDD to create a clean, immutable and functional approach solution with a rich domain.
 
-The solution could be easier, from an input output perspective you could just parse the string and generate the expected score, 
+The solution could be easier, from an input-output perspective it could just parse the string and generate the expected score, 
 but part of the problem was to create a good design exploring kotlin and its language features.
 
 ### Environment
@@ -141,9 +141,9 @@ bowlingGame score "X 3/ 6-1 X X X 2/ 9-0 7/ XXX"
 
 The model is pretty simple and represents a bowling game sheet.
 
-A game is a list of frames and a final score (intermediate scores are out of the problem)
+A game is a list of frames:
 ```kotlin
-data class Game(val frames: List<Frame>, val total:Int? = null)
+data class Game(val frames: List<Frame>)
 ```
 
 A frame is abstracted in a simple immutable data hierarchy
@@ -161,7 +161,7 @@ The parsing is just a pure function:
  ```
  (String) -> Game
  ```
- There is a default implementation provided by default made for the specifics of the problem input, but it can be
+ There is a default implementation provided made for the specifics of the problem input, but it can be
  override using dependency injection.
  The override should be done in the main class implementing an interface with a one method
  ```kotlin
@@ -180,7 +180,7 @@ The parsing is just a pure function:
 
 The score algorithm is also a pure function:
  ```
- Game -> Int
+ (Game)git add -> Int
  ```
 
 The algorithm is simple and recursive:
