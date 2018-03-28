@@ -180,7 +180,7 @@ The parsing is just a pure function:
 
 The score algorithm is also a pure function:
  ```
- (Game)git add -> Int
+ (Game) -> Int
  ```
 
 The algorithm is simple and recursive:
