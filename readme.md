@@ -79,7 +79,7 @@ More info on the rules at:
 
 ## The solution
 
-The solution has been coded using TDD to create a clean, immutable and functional approach solution with a rich domain.
+The solution has been coded using TDD to create a clean, immutable and functional approach solution with a simple domain.
 
 The solution could be easier, from an input-output perspective it could just parse the string and generate the expected score, 
 but part of the problem was to create a good design exploring kotlin and its language features.
