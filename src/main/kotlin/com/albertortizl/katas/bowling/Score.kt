@@ -29,7 +29,7 @@ fun score(game: Game): Int {
 }
 
 
-private fun score(frames: List<Frame>, turn: Int, accumulator: Int): Int =
+private tailrec fun score(frames: List<Frame>, turn: Int, accumulator: Int): Int =
         when {
             frames.isEmpty() || turn > TEN -> accumulator
             else -> {
