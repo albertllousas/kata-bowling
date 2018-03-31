@@ -134,7 +134,7 @@ Entry point: (AmericanTenPinBowling.ex)
 
 ```kotlin
 val bowlingGame = AmericanTenPinBowling()
-bowlingGame score "X 3/ 6-1 X X X 2/ 9-0 7/ XXX"
+bowlingGame totalScore "X 3/ 6-1 X X X 2/ 9-0 7/ XXX"
 ```
 
 #### Model
@@ -173,7 +173,7 @@ The parsing is just a pure function:
  ```kotlin
  val myCoolParser:GameParser = MyCoolParserImplementation
  val bowlingGame = AmericanTenPinBowling(myCoolParser)
- bowlingGame score "your_patterns"
+ bowlingGame totalScore "your_patterns"
  ```
    
 #### Scoring algorithm
