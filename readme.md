@@ -50,7 +50,7 @@ How to score: An open frame only earns the number of pins knocked down.
 - If in one shoot you don't knock down any pin, it is a miss.
 - An spare is marked with '**-**' in the frame
 
-How to score: A miss not count
+How to score: A miss doesn't count
 
 
 **The 10th Frame**
@@ -117,7 +117,7 @@ A very simple command line runner is provided to expose the api:
 
 ```bash
 gradle clean build
-java -jar build/libs/bowling-1.0-SNAPSHOT.jar "X 3/ 6-1 X X X 2/ 9-0 7/ XXX"
+java -jar build/libs/bowling-1.0-SNAPSHOT.jar "X 3/ 61 X X X 2/ 90 7/ XXX"
 193
 ```
 
@@ -134,7 +134,7 @@ Entry point: (AmericanTenPinBowling.ex)
 
 ```kotlin
 val bowlingGame = AmericanTenPinBowling()
-bowlingGame totalScore "X 3/ 6-1 X X X 2/ 9-0 7/ XXX"
+bowlingGame totalScore "X 3/ 61 X X X 2/ 90 7/ XXX"
 ```
 
 #### Model
