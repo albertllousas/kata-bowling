@@ -48,14 +48,9 @@ object AmericanTenPinBowlingSpec : Spek({
                 totalScore `should be equal to` 82
             }
 
-            it("should fail calculating an invalid game") {
+            it("should fail when something wrong happens") {
                 val func = { bowlingGame totalScore "non valid frame" }
-                func `should throw` IllegalArgumentException::class `with message` "Invalid frame 'non'"
-            }
-
-            it("should fail calculating a game with non valid number of frames") {
-                val func = { bowlingGame totalScore "90 35 61 36 81 53 25 80 71 81 99" }
-                func `should throw` IllegalArgumentException::class `with message` "Invalid number of frames, was 11 and must be 10"
+                func `should throw` Exception::class
             }
 
         }
