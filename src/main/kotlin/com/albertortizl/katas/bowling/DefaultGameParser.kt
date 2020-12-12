@@ -8,7 +8,7 @@ object DefaultGameParser : GameParser {
     private const val MISS = "-"
     private const val STRIKE = "X"
     private const val SPARE = "/"
-    private val allowedFrames= Regex("[-0-9X][-0-9X/]{0,2}")
+    private val allowedFrames = Regex("[-0-9X][-0-9X/]{0,2}")
 
 
     override fun parse(frames: String): Game {
@@ -21,18 +21,14 @@ object DefaultGameParser : GameParser {
         val firstRoll = frame[0].toNumberOfPins()
         val secondRoll = frame.getOrNull(1)?.toNumberOfPins(frame[0])
         val thirdRoll = frame.getOrNull(2)?.toNumberOfPins(frame.getOrNull(1))
-        return Frame.fromRolls(firstRoll, secondRoll, thirdRoll)
+        return Frame.fromBalls(firstRoll, secondRoll, thirdRoll)
     }
 
-    private fun Char.toNumberOfPins(previous: Char? = null): Int {
-
-        return when (this) {
-            STRIKE.single() -> ALL_PINS
-            MISS.single() -> ZERO_PINS
-            SPARE.single() -> (ALL_PINS - (previous?.toNumberOfPins() ?: ZERO_PINS))
-            else -> getNumericValue(this)
-        }
-    }
-
-
+    private fun Char.toNumberOfPins(previous: Char? = null): Int =
+            when (this) {
+                STRIKE.single() -> ALL_PINS
+                MISS.single() -> ZERO_PINS
+                SPARE.single() -> (ALL_PINS - (previous?.toNumberOfPins() ?: ZERO_PINS))
+                else -> getNumericValue(this)
+            }
 }

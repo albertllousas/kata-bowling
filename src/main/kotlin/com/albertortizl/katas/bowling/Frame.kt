@@ -12,15 +12,15 @@ data class Spare(val pinsFirstRoll: Int) : Frame()
 object Strike : Frame()
 data class Tenth(val frame: Frame, val firstExtraBall: Int? = null, val secondExtraBall: Int? = null) : Frame()
 
-fun Frame.Companion.fromRolls(firstRoll: Int, secondRoll: Int? = null, thirdRoll: Int? = null): Frame =
+fun Frame.Companion.fromBalls(firstBall: Int, secondBall: Int? = null, thirdBall: Int? = null): Frame =
         when {
-            firstRoll == ALL_PINS && thirdRoll != null ->
-                Tenth(frame = Strike, firstExtraBall = secondRoll, secondExtraBall = thirdRoll)
-            thirdRoll != null ->
-                Tenth(frame = fromRolls(firstRoll, secondRoll), firstExtraBall = thirdRoll)
-            firstRoll == ALL_PINS -> Strike
-            firstRoll + (secondRoll ?: ZERO_PINS) == ALL_PINS -> Spare(firstRoll)
-            else -> OpenFrame(firstRoll, secondRoll ?: ZERO_PINS)
+            firstBall == ALL_PINS && thirdBall != null ->
+                Tenth(frame = Strike, firstExtraBall = secondBall, secondExtraBall = thirdBall)
+            thirdBall != null ->
+                Tenth(frame = fromBalls(firstBall, secondBall), firstExtraBall = thirdBall)
+            firstBall == ALL_PINS -> Strike
+            firstBall + (secondBall ?: ZERO_PINS) == ALL_PINS -> Spare(firstBall)
+            else -> OpenFrame(firstBall, secondBall ?: ZERO_PINS)
         }
 
 fun Frame.pinsOfFirstRoll(): Int =
